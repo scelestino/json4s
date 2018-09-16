@@ -404,6 +404,14 @@ abstract class ExtractionExamples[T](mod: String, ser : json4s.Serialization) ex
       parse("""{ }""").extract[SeqWithDefaultSeq] must_== res
     }
 
+    "Extract NaN into Double" in {
+      parse(""" { "bar": NaN } """).extract[FooWithDouble].bar.isNaN must beTrue
+    }
+
+    "Extract NaN into Float" in {
+      parse(""" { "bar": NaN } """).extract[FooWithFloat].bar.isNaN must beTrue
+    }
+
   }
 
   val testJson =
@@ -591,3 +599,6 @@ case class SecondaryConstructorCaseClass(pair: Pair, test: Option[String], creat
   def this(a: String, b: String, test: Option[String], int: Int) = this(Pair(a, b), test, false, int)
 }
 case class OptionValue(value: Option[Int])
+
+case class FooWithDouble(bar:Double)
+case class FooWithFloat(bar:Float)

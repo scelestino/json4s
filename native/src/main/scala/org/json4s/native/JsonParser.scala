@@ -312,6 +312,12 @@ object JsonParser {
             fieldNameMode = true
             blocks.poll
             return CloseArr
+          case 'N' =>
+            fieldNameMode = true
+            if (buf.next == 'a' && buf.next == 'N') {
+              return DoubleVal(Double.NaN)
+            }
+            fail("expected NaN")
           case ' ' | '\n' | ',' | '\r' | '\t' =>
           case c =>
             if(EOF == c){
